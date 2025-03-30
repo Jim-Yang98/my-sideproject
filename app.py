@@ -18,31 +18,15 @@ except ImportError:
 
 app = Flask(__name__)
 
-# 設定存放 PDF 的資料夾
-PDF_FOLDER = r"C:\Users\USER\Documents\my-sideproject\static\pdf"
-app.config["PDF_FOLDER"] = PDF_FOLDER  # 設定 Flask 配置
-os.makedirs(PDF_FOLDER, exist_ok=True)
+# GitHub raw PDF URL
+GITHUB_PDF_URL = "https://github.com/Jim-Yang98/my-sideproject/raw/main/RFM.pdf"
 
 @app.route('/')
 def home():
-    return '''
-    <h1>PDF Viewer</h1>
-    <p><a href="/view-pdf/RFM.pdf">點擊這裡查看 PDF</a></p>
-    <p><a href="/show-pdf/RFM.pdf">內嵌 PDF 預覽</a></p>
-    '''
-
-@app.route('/show-pdf/<filename>')
-def show_pdf(filename):
     return f'''
     <h1>PDF 內容</h1>
-    <iframe src="/view-pdf/{filename}" width="800" height="600"></iframe>
-    <p><a href="/download-pdf/{filename}">下載 PDF</a></p>
+    <iframe src="{GITHUB_PDF_URL}" width="800" height="600"></iframe>
     '''
-    
-# 提供 PDF 預覽
-@app.route('/view-pdf/<filename>')
-def view_pdf(filename):
-    return send_from_directory(PDF_FOLDER, filename)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
